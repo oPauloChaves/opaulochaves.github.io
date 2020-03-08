@@ -1,6 +1,5 @@
 ---
 title: "Setting Up NeoVim for React and Nodejs Development on Ubuntu"
-date: 2020-02-07T13:53:53-03:00
 categories:
   - blog
 tags:
