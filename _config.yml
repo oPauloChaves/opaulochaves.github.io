@@ -32,6 +32,16 @@ paginate: 20 # amount of posts to show
 paginate_path: /page:num/
 timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "opaulochaves-github-io"
+
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "UA-93757124-1"
+
 include:
   - _pages
 
