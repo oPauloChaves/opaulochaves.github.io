@@ -50,7 +50,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write 'src/**/*.js' 'src/**/*.md'",
     "build": "gatsby build",
-    "deploy": "gatsby build && gh-pages -d public",
+    "deploy": "gatsby build && gh-pages -d public -b master",
     "start": "npm run develop",
     "cleanup-repository": "rimraf bin contentful && yarn remove contentful-import chalk inquirer rimraf "
   }
