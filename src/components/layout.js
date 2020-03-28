@@ -1,26 +1,57 @@
-import React from 'react'
-import { Link } from 'gatsby'
-import base from './base.css'
-import Container from './container'
-import Navigation from './navigation'
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
+import Link from './link';
 
-class Template extends React.Component {
-  render() {
-    const { location, children } = this.props
-    let header
+const links = [
+  { href: '/', text: 'Home', className: 'nav-link' },
+  { href: '/blog/', text: 'Blog', className: 'nav-link' },
+];
 
-    let rootPath = `/`
-    if (typeof __PREFIX_PATHS__ !== `undefined` && __PREFIX_PATHS__) {
-      rootPath = __PATH_PREFIX__ + `/`
-    }
+const createNavItem = ({ href, text, className }) => (
+  <NavItem>
+    <Link to={href} className={className}>
+      {text}
+    </Link>
+  </NavItem>
+);
 
-    return (
-      <Container>
-        <Navigation />
-        {children}
-      </Container>
-    )
-  }
+export default function Layout({ children }) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <>
+      <header>
+        <Navbar color="light" light expand="md">
+          <Container fluid="md">
+            <Link to="/" className="navbar-brand">
+              Paulo Chaves
+            </Link>
+            <NavbarToggler onClick={() => setOpen(!open)} />
+            <Collapse isOpen={open} navbar>
+              <Nav className="ml-auto" navbar>
+                {links.map(createNavItem)}
+              </Nav>
+            </Collapse>
+          </Container>
+        </Navbar>
+      </header>
+      <main role="main">
+        <Container fluid="md">{children}</Container>
+      </main>
+      <footer
+        style={{
+          padding: '1.5rem',
+          color: '#999',
+          textAlign: 'center',
+          backgroundColor: '#f9f9f9',
+          borderTop: '.05rem solid #e5e5e5',
+        }}
+      >
+        <Container fluid="md">
+          <p>Footer</p>
+        </Container>
+      </footer>
+    </>
+  );
 }
-
-export default Template
