@@ -8,15 +8,7 @@ const links = [
   { href: '/blog/', text: 'Blog', className: 'nav-link' },
 ];
 
-const createNavItem = ({ href, text, className }) => (
-  <NavItem>
-    <Link to={href} className={className}>
-      {text}
-    </Link>
-  </NavItem>
-);
-
-export default function Layout({ children }) {
+export default function Layout({ location, children }) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -30,7 +22,13 @@ export default function Layout({ children }) {
             <NavbarToggler onClick={() => setOpen(!open)} />
             <Collapse isOpen={open} navbar>
               <Nav className="ml-auto" navbar>
-                {links.map(createNavItem)}
+                {links.map((l, i) => (
+                  <NavItem key={i}>
+                    <Link to={l.href} className={l.className}>
+                      {l.text}
+                    </Link>
+                  </NavItem>
+                ))}
               </Nav>
             </Collapse>
           </Container>
