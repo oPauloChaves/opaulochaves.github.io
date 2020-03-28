@@ -1,47 +1,105 @@
-import React from 'react'
-import { graphql } from 'gatsby'
-import get from 'lodash/get'
-import Helmet from 'react-helmet'
-import Hero from '../components/hero'
-import Layout from '../components/layout'
-import ArticlePreview from '../components/article-preview'
+import React from 'react';
+import { graphql } from 'gatsby';
+import get from 'lodash/get';
+import styles from './index.module.css';
+import { Row, Col } from 'reactstrap';
+import Layout from '../components/layout';
+import SEO from '../components/seo';
+import Img from 'gatsby-image';
+import Link from '../components/link';
+import Watcher from '../components/icons/watcher';
+import GithubIcon from '../components/icons/github';
+import LinkedinIcon from '../components/icons/linkedin';
+import TwitterIcon from '../components/icons/twitter';
+
+const PostItem = ({ slug, title, body, description, publishDate }) => {
+  return (
+    <article className={styles.archive__item} itemScope itemType="https://schema.org/CreativeWork">
+      <h2 className={styles.archive__item_title} itemProp="headline">
+        <Link to={`/blog/${slug}`} rel="permalink">
+          {title}
+        </Link>
+      </h2>
+      <p className={styles.page__meta}>
+        <span>{publishDate} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <Watcher style={{ width: 10 }} />
+        <span>{body.childMarkdownRemark.timeToRead} min read</span>
+      </p>
+      <p className={styles.archive__item_excerpt} itemProp="description">
+        {description.childMarkdownRemark.excerpt}
+      </p>
+    </article>
+  );
+};
 
 class RootIndex extends React.Component {
   render() {
-    const siteTitle = get(this, 'props.data.site.siteMetadata.title')
-    const posts = get(this, 'props.data.allContentfulBlogPost.edges')
-    const [author] = get(this, 'props.data.allContentfulPerson.edges')
+    const site = get(this, 'props.data.site.siteMetadata');
+    const posts = get(this, 'props.data.allContentfulBlogPost.edges');
+    const [{ node: author }] = get(this, 'props.data.allContentfulPerson.edges');
 
     return (
       <Layout location={this.props.location}>
-        <div style={{ background: '#fff' }}>
-          <Helmet title={siteTitle} />
-          <Hero data={author.node} />
-          <div className="wrapper">
-            <h2 className="section-headline">Recent articles</h2>
-            <ul className="article-list">
-              {posts.map(({ node }) => {
-                return (
-                  <li key={node.slug}>
-                    <ArticlePreview article={node} />
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </div>
+        <SEO title={site.title} description={author.shortBio.shortBio} />
+        <Row>
+          <Col md="3" className={styles.author}>
+            <Img
+              style={{ maxWidth: 80, borderRadius: '50%' }}
+              alt={author.name}
+              fluid={author.heroImage.fluid}
+            />
+            <div className={styles.authorName}>
+              <h3>{author.name}</h3>
+            </div>
+            <div className={styles.authorTitle}>
+              <p>{author.title}</p>
+            </div>
+            <div className={styles.author__links}>
+              <ul className="list-unstyled">
+                <li>
+                  <Link to={`https://github.com/${site.social.github}`}>
+                    <GithubIcon style={{ width: 15, color: '#222' }} /> Github
+                  </Link>
+                </li>
+                <li>
+                  <Link to={`https://twitter.com/${site.social.twitter}`}>
+                    <TwitterIcon style={{ width: 15, color: '#222' }} /> Twitter
+                  </Link>
+                </li>
+                <li>
+                  <Link to={`https://linkedin.com/in/${site.social.linkedin}`}>
+                    <LinkedinIcon style={{ width: 15, color: '#222' }} /> Linkedin
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </Col>
+          <Col md="9">
+            <h3 className={styles.recentPosts}>Recent Posts</h3>
+            <div>
+              {posts.map(({ node }) => (
+                <PostItem key={node.slug} {...node} />
+              ))}
+            </div>
+          </Col>
+        </Row>
       </Layout>
-    )
+    );
   }
 }
 
-export default RootIndex
+export default RootIndex;
 
 export const pageQuery = graphql`
   query HomeQuery {
     site {
       siteMetadata {
         title
+        social {
+          twitter
+          github
+          linkedin
+        }
       }
     }
     allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
@@ -50,23 +108,20 @@ export const pageQuery = graphql`
           title
           slug
           publishDate(formatString: "MMMM Do, YYYY")
-          tags
-          heroImage {
-            fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
-              ...GatsbyContentfulFluid_tracedSVG
-            }
-          }
           description {
             childMarkdownRemark {
-              html
+              excerpt
+            }
+          }
+          body {
+            childMarkdownRemark {
+              timeToRead
             }
           }
         }
       }
     }
-    allContentfulPerson(
-      filter: { contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" } }
-    ) {
+    allContentfulPerson(filter: { contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" } }) {
       edges {
         node {
           name
@@ -75,12 +130,8 @@ export const pageQuery = graphql`
           }
           title
           heroImage: image {
-            fluid(
-              maxWidth: 1180
-              maxHeight: 480
-              resizingBehavior: PAD
-              background: "rgb:000000"
-            ) {
+            title
+            fluid(maxWidth: 150, resizingBehavior: PAD, background: "rgb:000000") {
               ...GatsbyContentfulFluid_tracedSVG
             }
           }
@@ -88,4 +139,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

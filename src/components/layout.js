@@ -3,10 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
 import Link from './link';
 
-const links = [
-  { href: '/', text: 'Home', className: 'nav-link' },
-  { href: '/blog/', text: 'Blog', className: 'nav-link' },
-];
+const links = [{ href: '/', text: 'Home', className: 'nav-link' }];
 
 export default function Layout({ location, children }) {
   const [open, setOpen] = React.useState(false);
