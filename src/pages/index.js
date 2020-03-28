@@ -42,7 +42,7 @@ class RootIndex extends React.Component {
       <Layout location={this.props.location}>
         <SEO title={site.title} description={author.shortBio.shortBio} />
         <Row>
-          <Col md="3" className={styles.author}>
+          <Col md={{ size: 2, offset: 1 }} className={`d-none d-md-block ${styles.author}`}>
             <Img
               style={{ maxWidth: 80, borderRadius: '50%' }}
               alt={author.name}
@@ -75,8 +75,8 @@ class RootIndex extends React.Component {
             </div>
           </Col>
           <Col md="9">
-            <h3 className={styles.recentPosts}>Recent Posts</h3>
-            <div>
+            <div style={{ maxWidth: '650px' }}>
+              <h3 className={styles.recentPosts}>Recent Posts</h3>
               {posts.map(({ node }) => (
                 <PostItem key={node.slug} {...node} />
               ))}

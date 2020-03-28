@@ -1,10 +1,10 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import get from 'lodash/get';
-import { Row, Col } from 'reactstrap';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Watcher from '../components/icons/watcher';
+import { Row, Col } from 'reactstrap';
 
 function BlogPost(props) {
   const post = get(props, 'data.contentfulBlogPost');
@@ -12,28 +12,24 @@ function BlogPost(props) {
   return (
     <Layout location={props.location}>
       <SEO title={post.title} description={post.description.description} />
-      <Row>
-        <Col md={{ size: 8, offset: 2 }}>
-          <article>
+      <article style={{ maxWidth: '650px', margin: '20px auto' }}>
+        <div>
+          <header>
+            <h1>{post.title}</h1>
             <div>
-              <header>
-                <h1>{post.title}</h1>
-                <div>
-                  <span>{post.publishDate} &nbsp;&nbsp;</span>
-                  <Watcher style={{ width: 15 }} />
-                  &nbsp;&nbsp;
-                  <span>{post.body.childMarkdownRemark.timeToRead} min read</span>
-                </div>
-              </header>
+              <span>{post.publishDate} &nbsp;&nbsp;</span>
+              <Watcher style={{ width: 15 }} />
+              &nbsp;&nbsp;
+              <span>{post.body.childMarkdownRemark.timeToRead} min read</span>
             </div>
-            <section
-              dangerouslySetInnerHTML={{
-                __html: post.body.childMarkdownRemark.html,
-              }}
-            />
-          </article>
-        </Col>
-      </Row>
+          </header>
+        </div>
+        <section
+          dangerouslySetInnerHTML={{
+            __html: post.body.childMarkdownRemark.html,
+          }}
+        />
+      </article>
     </Layout>
   );
 }
