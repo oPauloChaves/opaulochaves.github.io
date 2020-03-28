@@ -16,8 +16,9 @@
 title: Paulo Chaves
 email:
 description: >- # this means to ignore newlines until "baseurl:"
-  I am a Fullstack Developer excited about building web apps with React and Node.
-  Today I focus on JavaScript but I have also worked with Java, PHP and Ruby. 
+  Passionate fullstack developer who enjoys building web apps. Work on the frontend with Reactjs
+  and on the backend with Nodejs mainly. Working intensively with JAM stack lately.
+  Quick-learner, consistently seeking and learning new technologies. Also with previous experiences with Java.
 twitter_username: opaulochaves
 github_username: opaulochaves
 minimal_mistakes_skin: default
@@ -68,7 +69,7 @@ plugins:
 
 author:
   name   : "Paulo Chaves"
-  avatar : "https://avatars3.githubusercontent.com/u/5408308?v=3&s=460"
+  avatar : "https://avatars3.githubusercontent.com/u/5408308?v=3&s=250"
   bio    : "Fullstack Developer"
   links:
     - label: "GitHub"
