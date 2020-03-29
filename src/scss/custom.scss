@@ -1,0 +1,9 @@
+@import './fonts.scss';
+
+.navbar {
+  border-bottom: 0.05rem solid #e5e5e5;
+}
+
+.navbar-brand {
+  font-weight: $headings-font-weight;
+}

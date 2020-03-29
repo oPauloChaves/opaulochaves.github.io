@@ -2,6 +2,7 @@ import React from 'react'
 
 import 'prismjs/themes/prism.css'
 import 'scss/main.scss'
+import './style.scss'
 
 import { Container, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap'
 import { useStaticQuery, graphql } from 'gatsby'
@@ -13,23 +14,21 @@ import TwitterIcon from 'components/icons/twitter'
 
 const links = [{ href: '/', text: 'Home', className: 'nav-link' }]
 
-const SocialIcons = ({ site, width }) => (
-  <ul className="list-inline">
-    <li className="list-inline-item">
-      <Link to={`https://github.com/${site.social.github}`}>
-        <GithubIcon style={{ width, color: '#222' }} />
-      </Link>
-    </li>
-    <li className="list-inline-item">
-      <Link to={`https://twitter.com/${site.social.twitter}`}>
-        <TwitterIcon style={{ width, color: '#222' }} />
-      </Link>
-    </li>
-    <li className="list-inline-item">
-      <Link to={`https://linkedin.com/in/${site.social.linkedin}`}>
-        <LinkedinIcon style={{ width, color: '#222' }} />
-      </Link>
-    </li>
+const icons = [
+  { name: 'github', to: 'https://github.com', Icon: GithubIcon },
+  { name: 'twitter', to: 'https://twitter.com', Icon: TwitterIcon },
+  { name: 'linkedin', to: 'https://linkedin.com/in', Icon: LinkedinIcon },
+]
+
+const SocialIcons = ({ site, width = 20, color = '#222' }) => (
+  <ul className="list-inline layout__icons">
+    {icons.map(({ name, to, Icon }) => (
+      <li className="list-inline-item" key={name}>
+        <Link to={`${to}/${site.social[name]}`}>
+          <Icon style={{ width, color }} />
+        </Link>
+      </li>
+    ))}
   </ul>
 )
 
@@ -57,14 +56,14 @@ export default function Layout({ children }) {
   return (
     <>
       <header>
-        <Navbar color="light" light expand="md">
+        <Navbar color="light" light expand="md" fixed="top">
           <Container fluid="md">
             <Link to="/" className="navbar-brand">
               Paulo Chaves
             </Link>
             <Nav className="mr-auto" navbar>
               <NavItem>
-                <SocialIcons width={20} site={site} />
+                <SocialIcons site={site} />
               </NavItem>
             </Nav>
             <NavbarToggler onClick={() => setOpen(!open)} />
@@ -83,21 +82,15 @@ export default function Layout({ children }) {
         </Navbar>
       </header>
       <main role="main">
-        <Container fluid="md">{children}</Container>
+        <Container fluid="md" className="main">
+          {children}
+        </Container>
       </main>
-      <footer
-        style={{
-          padding: '1.5rem',
-          color: '#999',
-          textAlign: 'center',
-          backgroundColor: '#f9f9f9',
-          borderTop: '.05rem solid #e5e5e5',
-        }}
-      >
+      <footer className="layout__footer">
         <Container fluid="md">
-          <SocialIcons site={site} width={20} />
+          <SocialIcons site={site} />
           <div>
-            © {site.title} - {new Date().getFullYear()}, Built with
+            © {new Date().getFullYear()} {site.title} - Built with
             {` `}
             <Link to="https://www.gatsbyjs.org">Gatsby</Link>
           </div>

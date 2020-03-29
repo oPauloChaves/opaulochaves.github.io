@@ -1,0 +1,21 @@
+.blog__article {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.blog__meta {
+  margin-bottom: 5px;
+}
+
+.blog__meta span {
+  font-size: 0.8rem;
+  color: #646769;
+  margin-bottom: 5px;
+  font-style: italic;
+  margin-left: 30px;
+}
+
+
+.blog__meta span:first-child {
+  margin-left: 0;
+}

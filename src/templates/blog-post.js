@@ -1,25 +1,23 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import get from 'lodash/get'
 import Layout from 'components/layout'
 import SEO from 'components/seo'
-import Watcher from 'components/icons/watcher'
 import { Row, Col } from 'reactstrap'
 
+import './blog-post.scss'
+
 function BlogPost(props) {
-  const post = get(props, 'data.contentfulBlogPost')
+  const post = props.data.contentfulBlogPost
 
   return (
     <Layout location={props.location}>
       <SEO title={post.title} description={post.description.description} />
-      <article style={{ maxWidth: '650px', margin: '20px auto' }}>
+      <article className="blog__article">
         <div>
           <header>
             <h1>{post.title}</h1>
-            <div>
-              <span>{post.publishDate} &nbsp;&nbsp;</span>
-              <Watcher style={{ width: 15 }} />
-              &nbsp;&nbsp;
+            <div className="blog__meta">
+              <span>{post.publishDate}</span>
               <span>{post.body.childMarkdownRemark.timeToRead} min read</span>
             </div>
           </header>
