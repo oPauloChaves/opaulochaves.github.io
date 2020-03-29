@@ -1,5 +1,8 @@
 import React from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'prismjs/themes/prism.css';
+
 import { Container, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
 import Link from './link';
 import { useStaticQuery, graphql } from 'gatsby';
