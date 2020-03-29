@@ -30,30 +30,43 @@
     "babel-eslint": "^10.1.0",
     "dotenv": "^8.0.0",
     "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "gh-pages": "^2.0.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.9",
     "prettier": "^2.0.2"
   },
   "homepage": "https://github.com/opaulochaves/opaulochaves.github.io#readme",
   "keywords": [
     "gatsby",
-    "contentful"
+    "contentful",
+    "bootstrap"
   ],
   "license": "MIT",
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "main": "n/a",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/opaulochaves/opaulochaves.github.io.git"
   },
   "scripts": {
-    "dev": "npm run develop",
-    "develop": "gatsby develop",
-    "lint": "eslint --ext .js,.jsx --ignore-pattern public .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write 'src/**/*.js' 'src/**/*.md'",
     "build": "gatsby build",
     "deploy": "gatsby build && gh-pages -d public -b master",
-    "start": "npm run develop",
-    "cleanup-repository": "rimraf bin contentful && yarn remove contentful-import chalk inquirer rimraf "
+    "develop": "gatsby develop",
+    "format": "prettier --write \"**/*.+(js|json|md)\"",
+    "lint": "eslint --ext .js,.jsx --ignore-pattern public .",
+    "test": "prettier --write \"**/*.+(js|jsx|json|css|scss)\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

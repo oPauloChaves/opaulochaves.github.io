@@ -1,17 +1,26 @@
 module.exports = {
-  env: {
-    browser: true,
-    es6: true,
-  },
-  plugins: ['react'],
-  globals: {
-    graphql: false,
-  },
+  extends: ['prettier', 'prettier/react'],
+  plugins: ['react', 'prettier'],
   parserOptions: {
+    ecmaVersion: 2016,
     sourceType: 'module',
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
       jsx: true,
     },
   },
-};
+  env: {
+    es6: true,
+    node: true,
+  },
+  rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        trailingComma: 'all',
+        semi: false,
+        printWidth: 100,
+      },
+    ],
+  },
+}
