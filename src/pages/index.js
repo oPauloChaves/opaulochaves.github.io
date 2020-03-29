@@ -1,16 +1,16 @@
-import React from 'react';
-import { graphql } from 'gatsby';
-import get from 'lodash/get';
-import styles from './index.module.css';
-import { Row, Col } from 'reactstrap';
-import Layout from '../components/layout';
-import SEO from '../components/seo';
-import Img from 'gatsby-image';
-import Link from '../components/link';
-import Watcher from '../components/icons/watcher';
-import GithubIcon from '../components/icons/github';
-import LinkedinIcon from '../components/icons/linkedin';
-import TwitterIcon from '../components/icons/twitter';
+import React from 'react'
+import { graphql } from 'gatsby'
+import get from 'lodash/get'
+import styles from './index.module.css'
+import { Row, Col } from 'reactstrap'
+import Layout from 'components/layout'
+import SEO from 'components/seo'
+import Img from 'gatsby-image'
+import Link from 'components/link'
+import Watcher from 'components/icons/watcher'
+import GithubIcon from 'components/icons/github'
+import LinkedinIcon from 'components/icons/linkedin'
+import TwitterIcon from 'components/icons/twitter'
 
 const PostItem = ({ slug, title, body, description, publishDate }) => {
   return (
@@ -29,14 +29,14 @@ const PostItem = ({ slug, title, body, description, publishDate }) => {
         {description.childMarkdownRemark.excerpt}
       </p>
     </article>
-  );
-};
+  )
+}
 
 class RootIndex extends React.Component {
   render() {
-    const site = get(this, 'props.data.site.siteMetadata');
-    const posts = get(this, 'props.data.allContentfulBlogPost.edges');
-    const [{ node: author }] = get(this, 'props.data.allContentfulPerson.edges');
+    const site = get(this, 'props.data.site.siteMetadata')
+    const posts = get(this, 'props.data.allContentfulBlogPost.edges')
+    const [{ node: author }] = get(this, 'props.data.allContentfulPerson.edges')
 
     return (
       <Layout location={this.props.location}>
@@ -84,11 +84,11 @@ class RootIndex extends React.Component {
           </Col>
         </Row>
       </Layout>
-    );
+    )
   }
 }
 
-export default RootIndex;
+export default RootIndex
 
 export const pageQuery = graphql`
   query HomeQuery {
@@ -139,4 +139,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`

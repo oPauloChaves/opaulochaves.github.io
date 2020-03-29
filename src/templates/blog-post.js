@@ -1,13 +1,13 @@
-import React from 'react';
-import { graphql } from 'gatsby';
-import get from 'lodash/get';
-import Layout from '../components/layout';
-import SEO from '../components/seo';
-import Watcher from '../components/icons/watcher';
-import { Row, Col } from 'reactstrap';
+import React from 'react'
+import { graphql } from 'gatsby'
+import get from 'lodash/get'
+import Layout from 'components/layout'
+import SEO from 'components/seo'
+import Watcher from 'components/icons/watcher'
+import { Row, Col } from 'reactstrap'
 
 function BlogPost(props) {
-  const post = get(props, 'data.contentfulBlogPost');
+  const post = get(props, 'data.contentfulBlogPost')
 
   return (
     <Layout location={props.location}>
@@ -31,10 +31,10 @@ function BlogPost(props) {
         />
       </article>
     </Layout>
-  );
+  )
 }
 
-export default BlogPost;
+export default BlogPost
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
@@ -53,4 +53,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`

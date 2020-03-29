@@ -1,16 +1,17 @@
-import React from 'react';
+import React from 'react'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism.css'
+import 'scss/main.scss'
 
-import { Container, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
-import Link from './link';
-import { useStaticQuery, graphql } from 'gatsby';
-import GithubIcon from '../components/icons/github';
-import LinkedinIcon from '../components/icons/linkedin';
-import TwitterIcon from '../components/icons/twitter';
+import { Container, Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap'
+import { useStaticQuery, graphql } from 'gatsby'
 
-const links = [{ href: '/', text: 'Home', className: 'nav-link' }];
+import Link from 'components/link'
+import GithubIcon from 'components/icons/github'
+import LinkedinIcon from 'components/icons/linkedin'
+import TwitterIcon from 'components/icons/twitter'
+
+const links = [{ href: '/', text: 'Home', className: 'nav-link' }]
 
 const SocialIcons = ({ site, width }) => (
   <ul className="list-inline">
@@ -30,7 +31,7 @@ const SocialIcons = ({ site, width }) => (
       </Link>
     </li>
   </ul>
-);
+)
 
 export default function Layout({ children }) {
   const siteInfo = useStaticQuery(
@@ -48,10 +49,10 @@ export default function Layout({ children }) {
         }
       }
     `,
-  );
+  )
 
-  const site = siteInfo.site.siteMetadata;
-  const [open, setOpen] = React.useState(false);
+  const site = siteInfo.site.siteMetadata
+  const [open, setOpen] = React.useState(false)
 
   return (
     <>
@@ -103,5 +104,5 @@ export default function Layout({ children }) {
         </Container>
       </footer>
     </>
-  );
+  )
 }
