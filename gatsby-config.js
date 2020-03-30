@@ -56,6 +56,13 @@ module.exports = {
       },
     },
     {
+      resolve: 'gatsby-plugin-google-analytics',
+      options: {
+        trackingId: 'UA-93757124-1',
+        exclude: ['/preview/**'],
+      },
+    },
+    {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: ['gatsby-remark-prismjs'],
