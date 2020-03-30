@@ -34,9 +34,15 @@ class RootIndex extends React.Component {
     const posts = this.props.data.allContentfulBlogPost.edges
     const [{ node: author }] = this.props.data.allContentfulPerson.edges
 
+    const link = [
+      { rel: 'home', href: site.siteUrl },
+      { rel: 'canonical', href: site.siteUrl },
+    ]
+    const meta = [{ property: 'og:url', content: site.siteUrl }]
+
     return (
       <Layout location={this.props.location}>
-        <SEO title={site.title} description={author.shortBio.shortBio} />
+        <SEO title={site.title} description={author.shortBio.shortBio} link={link} meta={meta} />
         <Row>
           <Col md="3" className={`d-none d-md-block`}>
             <Img
@@ -86,6 +92,7 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
+        siteUrl
         social {
           twitter
           github

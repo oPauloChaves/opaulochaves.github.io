@@ -8,10 +8,17 @@ import './blog-post.scss'
 
 function BlogPost(props) {
   const post = props.data.contentfulBlogPost
+  const site = props.data.site.siteMetadata
+
+  const link = [
+    { rel: 'home', href: site.siteUrl },
+    { rel: 'canonical', href: `${site.siteUrl}/blog/${post.slug}` },
+  ]
+  const meta = [{ property: 'og:url', content: `${site.siteUrl}/blog/${post.slug}` }]
 
   return (
     <Layout location={props.location}>
-      <SEO title={post.title} description={post.description.description} />
+      <SEO title={post.title} description={post.description.description} link={link} meta={meta} />
       <article className="blog__article">
         <div>
           <header>
@@ -36,7 +43,14 @@ export default BlogPost
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
+    site {
+      siteMetadata {
+        title
+        siteUrl
+      }
+    }
     contentfulBlogPost(slug: { eq: $slug }) {
+      slug
       title
       publishDate(formatString: "MMMM Do, YYYY")
       tags
