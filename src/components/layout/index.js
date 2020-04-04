@@ -12,8 +12,6 @@ import GithubIcon from 'components/icons/github'
 import LinkedinIcon from 'components/icons/linkedin'
 import TwitterIcon from 'components/icons/twitter'
 
-const links = [{ href: '/', text: 'Home', className: 'nav-link' }]
-
 const icons = [
   { name: 'github', to: 'https://github.com', Icon: GithubIcon },
   { name: 'twitter', to: 'https://twitter.com', Icon: TwitterIcon },
@@ -32,7 +30,7 @@ const SocialIcons = ({ site, width = 20, color = '#222' }) => (
   </ul>
 )
 
-export default function Layout({ children }) {
+export default function Layout({ children, siteLang, langs = [] }) {
   const siteInfo = useStaticQuery(
     graphql`
       query {
@@ -69,13 +67,17 @@ export default function Layout({ children }) {
             <NavbarToggler onClick={() => setOpen(!open)} />
             <Collapse isOpen={open} navbar>
               <Nav className="ml-auto" navbar>
-                {links.map((l, i) => (
-                  <NavItem key={i}>
-                    <Link to={l.href} className={l.className}>
-                      {l.text}
+                <NavItem className="lang-switch">
+                  {langs.map((lang) => (
+                    <Link
+                      to={`/?lang=${lang}`}
+                      key={lang}
+                      className={`nav-link ${lang === siteLang ? 'active-lang' : ''}`}
+                    >
+                      {lang}
                     </Link>
-                  </NavItem>
-                ))}
+                  ))}
+                </NavItem>
               </Nav>
             </Collapse>
           </Container>
