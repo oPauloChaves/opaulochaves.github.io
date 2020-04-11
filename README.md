@@ -61,7 +61,7 @@ Run a production build into `./public` and publish the site to GitHub pages.
   - use DatoCMS or Contentful or NetlifyCMS or .md files with gatsby-source-file plugin
     - using files would require me to change code when editing a blog post :(
     - using a CMS would need to touch code to enter content
-  - Deploy to Netlify or Zeit
+  - Deploy to Netlify or **Zeit**
     - would allow me to have functions to enable contact page with Mailgun as the starter has setup
     - continues deployment triggered by a hook from CMS
     - Moving to Netlify I would put code on branch master and ditch github pages
