@@ -1,4 +1,10 @@
 import React from 'react'
+
+export default function NotFound() {
+  return <h1>404 Not Found</h1>
+}
+
+/*
 import { Row, Col } from 'reactstrap'
 import Link from 'components/link'
 import Layout from 'components/layout'
@@ -16,3 +22,4 @@ export default function PageNotFound() {
     </Layout>
   )
 }
+*/

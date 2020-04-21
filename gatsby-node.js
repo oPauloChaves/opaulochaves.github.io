@@ -1,6 +1,58 @@
-const Promise = require('bluebird')
 const path = require('path')
 
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+
+  const result = await graphql(`
+    {
+      articles: allDatoCmsArticle(sort: { order: DESC, fields: publishDate }) {
+        edges {
+          node {
+            id
+            slug
+            locale
+          }
+        }
+      }
+    }
+  `)
+
+  if (result.errors) {
+    throw new result.errors()
+  }
+
+  ;['en', 'pt-BR'].forEach((locale) => {
+    const root = locale === 'en' ? '/' : `/${locale.toLowerCase()}`
+    createPage({
+      path: root,
+      component: path.resolve('./src/templates/home.js'),
+      context: {
+        locale,
+      },
+    })
+  })
+
+  const posts = result.data.articles.edges
+
+  posts.forEach(({ node }) => {
+    const { locale } = node
+    const lang = locale === 'en' ? '' : `/${locale.toLowerCase()}`
+
+    createPage({
+      path: `${lang}/blog/${node.slug}`,
+      component: path.resolve('./src/templates/blog-post.js'),
+      context: {
+        locale,
+        id: node.id,
+        slug: node.slug,
+      },
+    })
+  })
+
+  return true
+}
+
+/*
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
 
@@ -40,6 +92,7 @@ exports.createPages = ({ graphql, actions }) => {
     )
   })
 }
+*/
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({

@@ -1,17 +1,5 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
-const contentfulConfig = {
-  spaceId: process.env.CONTENTFUL_SPACE_ID,
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-  host: process.env.CONTENTFUL_HOST,
-}
-
-const { spaceId, accessToken } = contentfulConfig
-
-if (!spaceId || !accessToken) {
-  throw new Error('Contentful spaceId and the access token need to be provided.')
-}
-
 module.exports = {
   siteMetadata: {
     title: 'Paulo Chaves',
@@ -58,8 +46,16 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
-        trackingId: 'UA-93757124-1',
+        trackingId: process.env.GOOGLE_ID,
+        head: false,
         exclude: ['/preview/**'],
+      },
+    },
+    {
+      resolve: 'gatsby-source-datocms',
+      options: {
+        apiToken: process.env.DATO_CMS,
+        previewMode: true,
       },
     },
     {
@@ -67,10 +63,6 @@ module.exports = {
       options: {
         plugins: ['gatsby-remark-prismjs'],
       },
-    },
-    {
-      resolve: 'gatsby-source-contentful',
-      options: contentfulConfig,
     },
     'gatsby-plugin-offline',
     'gatsby-plugin-react-helmet',
