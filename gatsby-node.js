@@ -9,6 +9,7 @@ exports.createPages = async ({ graphql, actions }) => {
         edges {
           node {
             id
+            title
             slug
             locale
           }
@@ -38,15 +39,18 @@ exports.createPages = async ({ graphql, actions }) => {
     const { locale } = node
     const lang = locale === 'en' ? '' : `/${locale.toLowerCase()}`
 
-    createPage({
-      path: `${lang}/blog/${node.slug}`,
-      component: path.resolve('./src/templates/blog-post.js'),
-      context: {
-        locale,
-        id: node.id,
-        slug: node.slug,
-      },
-    })
+    // if there's content for the current language, create its page
+    if (node.title) {
+      createPage({
+        path: `${lang}/blog/${node.slug}`,
+        component: path.resolve('./src/templates/blog-post.js'),
+        context: {
+          locale,
+          id: node.id,
+          slug: node.slug,
+        },
+      })
+    }
   })
 
   return true
