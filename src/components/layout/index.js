@@ -45,8 +45,12 @@ const SocialIcons = ({ site, width = 20, color = '#222' }) => {
   )
 }
 
-export default function Layout({ site, slug, children, locale, langs = [] }) {
+export default function Layout({ site, slug, postLocales, children, locale, langs = [] }) {
   const [open, setOpen] = React.useState(false)
+
+  // when blog-post availableLocales is present, when home use langs
+  const availableLocales = postLocales && Object.keys(postLocales)
+  const langLinks = availableLocales ? availableLocales : langs
 
   return (
     <>
@@ -65,10 +69,10 @@ export default function Layout({ site, slug, children, locale, langs = [] }) {
             <Collapse isOpen={open} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem className="lang-switch">
-                  {langs.map((lang) => (
+                  {langLinks.map((lang) => (
                     <Link
-                      to={getPath(lang, slug)}
                       key={lang}
+                      to={getPath(lang, slug)}
                       className={`nav-link ${lang === locale ? 'active-lang' : ''}`}
                     >
                       {lang}

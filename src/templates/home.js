@@ -63,9 +63,7 @@ export default function HomePage({ location, data, pageContext }) {
         <Col md="9">
           <div style={{ maxWidth: '650px' }}>
             <h3>Posts</h3>
-            {posts.map(({ node }) => (
-              <PostItem key={node.slug} {...node} />
-            ))}
+            {posts.map(({ node }) => node.title && <PostItem key={node.slug} {...node} />)}
           </div>
         </Col>
       </Row>

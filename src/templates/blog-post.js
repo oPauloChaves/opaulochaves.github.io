@@ -6,7 +6,7 @@ import { HelmetDatoCms } from 'gatsby-source-datocms'
 import './blog-post.scss'
 
 export default function BlogPost(props) {
-  const { locale } = props.pageContext
+  const { locale, postLocales } = props.pageContext
   const { post } = props.data
   const { node: home } = props.data.home.edges[0]
 
@@ -17,6 +17,7 @@ export default function BlogPost(props) {
       location={props.location}
       slug={`blog/${post.slug}`}
       locale={locale}
+      postLocales={postLocales}
       site={home.owner}
       langs={['en', 'pt-BR']}
     >
