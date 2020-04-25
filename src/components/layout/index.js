@@ -12,52 +12,53 @@ import GithubIcon from 'components/icons/github'
 import LinkedinIcon from 'components/icons/linkedin'
 import TwitterIcon from 'components/icons/twitter'
 
-const icons = [
-  { name: 'github', to: 'https://github.com', Icon: GithubIcon },
-  { name: 'twitter', to: 'https://twitter.com', Icon: TwitterIcon },
-  { name: 'linkedin', to: 'https://linkedin.com/in', Icon: LinkedinIcon },
-]
+const getPath = (locale, slug) => {
+  if (!slug) return locale === 'en' ? '/' : '/pt-br'
+  return locale === 'en' ? `/${slug}` : `/pt-br/${slug}`
+}
 
-const SocialIcons = ({ site, width = 20, color = '#222' }) => (
-  <ul className="list-inline layout__icons">
-    {icons.map(({ name, to, Icon }) => (
-      <li className="list-inline-item" key={name}>
-        <Link to={`${to}/${site.social[name]}`}>
-          <Icon style={{ width, color }} />
-        </Link>
-      </li>
-    ))}
-  </ul>
-)
-
-export default function Layout({ children, siteLang, langs = [] }) {
-  const siteInfo = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            social {
-              twitter
-              github
-              linkedin
-            }
-          }
-        }
-      }
-    `,
+const SocialIcons = ({ site, width = 20, color = '#222' }) => {
+  return (
+    <ul className="list-inline layout__icons">
+      {site.github && (
+        <li className="list-inline-item">
+          <Link to={`https://github.com/${site.github}`}>
+            <GithubIcon style={{ width, color }} />
+          </Link>
+        </li>
+      )}
+      {site.twitter && (
+        <li className="list-inline-item">
+          <Link to={`https://twitter.com/${site.twitter}`}>
+            <TwitterIcon style={{ width, color }} />
+          </Link>
+        </li>
+      )}
+      {site.linkedin && (
+        <li className="list-inline-item">
+          <Link to={`https://linkedin.com/in/${site.linkedin}`}>
+            <LinkedinIcon style={{ width, color }} />
+          </Link>
+        </li>
+      )}
+    </ul>
   )
+}
 
-  const site = siteInfo.site.siteMetadata
+export default function Layout({ site, slug, postLocales, children, locale, langs = [] }) {
   const [open, setOpen] = React.useState(false)
+
+  // when blog-post availableLocales is present, when home use langs
+  const availableLocales = postLocales && Object.keys(postLocales)
+  const langLinks = availableLocales ? availableLocales : langs
 
   return (
     <>
       <header>
         <Navbar color="light" light expand="md" fixed="top">
           <Container fluid="md">
-            <Link to="/" className="navbar-brand">
-              Paulo Chaves
+            <Link to={getPath(locale)} className="navbar-brand">
+              {site.name}
             </Link>
             <Nav className="mr-auto" navbar>
               <NavItem>
@@ -68,11 +69,11 @@ export default function Layout({ children, siteLang, langs = [] }) {
             <Collapse isOpen={open} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem className="lang-switch">
-                  {langs.map((lang) => (
+                  {langLinks.map((lang) => (
                     <Link
-                      to={`/?lang=${lang}`}
                       key={lang}
-                      className={`nav-link ${lang === siteLang ? 'active-lang' : ''}`}
+                      to={getPath(lang, slug)}
+                      className={`nav-link ${lang === locale ? 'active-lang' : ''}`}
                     >
                       {lang}
                     </Link>
@@ -92,7 +93,7 @@ export default function Layout({ children, siteLang, langs = [] }) {
         <Container fluid="md">
           <SocialIcons site={site} />
           <div>
-            © {new Date().getFullYear()} {site.title} - Built with
+            © {new Date().getFullYear()} {site.name} - Built with
             {` `}
             <Link to="https://www.gatsbyjs.org">Gatsby</Link>
           </div>

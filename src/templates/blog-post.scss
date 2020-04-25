@@ -1,5 +1,11 @@
+blockquote {
+  padding: 0 1rem;
+  color: #6a737d;
+  border-left: 0.25rem solid #dfe2e5;
+}
+
 .blog__article {
-  max-width: 650px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -8,13 +14,12 @@
 }
 
 .blog__meta span {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #646769;
   margin-bottom: 5px;
   font-style: italic;
   margin-left: 30px;
 }
-
 
 .blog__meta span:first-child {
   margin-left: 0;

@@ -1,44 +1,68 @@
-const Promise = require('bluebird')
 const path = require('path')
 
-exports.createPages = ({ graphql, actions }) => {
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  return new Promise((resolve, reject) => {
-    const blogPost = path.resolve('./src/templates/blog-post.js')
-    resolve(
-      graphql(
-        `
-          {
-            allContentfulBlogPost {
-              edges {
-                node {
-                  title
-                  slug
-                }
-              }
-            }
+  const result = await graphql(`
+    {
+      articles: allDatoCmsArticle(sort: { order: DESC, fields: publishDate }) {
+        edges {
+          node {
+            id
+            title
+            slug
+            locale
           }
-        `,
-      ).then((result) => {
-        if (result.errors) {
-          console.log(result.errors)
-          reject(result.errors)
         }
+      }
+    }
+  `)
 
-        const posts = result.data.allContentfulBlogPost.edges
-        posts.forEach((post, index) => {
-          createPage({
-            path: `/blog/${post.node.slug}/`,
-            component: blogPost,
-            context: {
-              slug: post.node.slug,
-            },
-          })
-        })
-      }),
-    )
+  if (result.errors) {
+    throw new result.errors()
+  }
+
+  ;['en', 'pt-BR'].forEach((locale) => {
+    const root = locale === 'en' ? '/' : `/${locale.toLowerCase()}`
+    createPage({
+      path: root,
+      component: path.resolve('./src/templates/home.js'),
+      context: {
+        locale,
+      },
+    })
   })
+
+  const posts = result.data.articles.edges
+
+  let postLang = {}
+  posts.forEach(({ node }) => {
+    if (!postLang[node.id]) {
+      postLang[node.id] = { [node.locale]: !!node.title }
+    }
+    postLang[node.id][node.locale] = !!node.title
+  })
+
+  posts.forEach(({ node }) => {
+    const { locale } = node
+    const lang = locale === 'en' ? '' : `/${locale.toLowerCase()}`
+
+    // if there's content for the current language, create its page
+    if (postLang[node.id][locale]) {
+      createPage({
+        path: `${lang}/blog/${node.slug}`,
+        component: path.resolve('./src/templates/blog-post.js'),
+        context: {
+          locale,
+          id: node.id,
+          slug: node.slug,
+          postLocales: postLang[node.id],
+        },
+      })
+    }
+  })
+
+  return true
 }
 
 exports.onCreateWebpackConfig = ({ actions }) => {
