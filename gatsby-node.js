@@ -65,14 +65,21 @@ exports.createPages = async ({ graphql, actions }) => {
   return true
 }
 
-exports.onCreateWebpackConfig = ({ actions }) => {
-  actions.setWebpackConfig({
-    resolve: {
-      alias: {
-        components: path.resolve(__dirname, 'src/components'),
-        templates: path.resolve(__dirname, 'src/templates'),
-        scss: path.resolve(__dirname, 'src/scss'),
-      },
-    },
-  })
+exports.onCreateWebpackConfig = ({ getConfig, actions }) => {
+  const alias = {
+    components: path.resolve(__dirname, 'src/components'),
+    templates: path.resolve(__dirname, 'src/templates'),
+    scss: path.resolve(__dirname, 'src/scss'),
+  }
+
+  if (getConfig().mode === 'production') {
+    actions.setWebpackConfig({
+      resolve: { alias },
+      devtool: false,
+    })
+  } else {
+    actions.setWebpackConfig({
+      resolve: { alias },
+    })
+  }
 }

@@ -3,18 +3,6 @@ require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 module.exports = {
   siteMetadata: {
     title: 'Paulo Chaves',
-    description:
-      'Passionate fullstack developer who enjoys building web apps. Work on the frontend with Reactjs and on the backend with Nodejs mainly. Working intensively with JAM stack lately. Quick-learner, consistently seeking and learning new technologies. Also with previous experiences with Java.',
-    author: {
-      name: 'Paulo Chaves',
-    },
-    siteUrl: 'https://paulochaves.dev',
-    lang: 'en',
-    social: {
-      twitter: 'opaulochaves',
-      github: 'opaulochaves',
-      linkedin: 'opaulochaves',
-    },
   },
   pathPrefix: '/',
   plugins: [
@@ -23,11 +11,11 @@ module.exports = {
       options: {
         name: 'Paulo Chaves',
         short_name: 'Paulo Chaves',
-        description: 'Personal Website',
+        description: 'Software Engineer',
         homepage_url: 'https://paulochaves.dev',
         start_url: '/',
         background_color: '#fff',
-        theme_color: '#673ab7',
+        theme_color: '#46287D',
         display: 'standalone',
         icons: [
           {
@@ -64,7 +52,6 @@ module.exports = {
         plugins: ['gatsby-remark-prismjs'],
       },
     },
-    'gatsby-plugin-offline',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sass',
     'gatsby-plugin-sharp',
